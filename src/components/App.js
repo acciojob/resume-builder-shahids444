@@ -1,211 +1,727 @@
-import React, { useState, useContext, createContext, useReducer } from 'react';
-import { Trash2, Plus, User, GraduationCap, Code, FolderOpen, Globe, Eye, ArrowLeft, ArrowRight, Save } from 'lucide-react';
+import React, { useReducer, useState } from 'react';
 
-// ---------------- ACTION TYPES ----------------
-const UPDATE_PROFILE = 'UPDATE_PROFILE';
-const ADD_EDUCATION = 'ADD_EDUCATION';
-const UPDATE_EDUCATION = 'UPDATE_EDUCATION';
-const DELETE_EDUCATION = 'DELETE_EDUCATION';
-const ADD_SKILL = 'ADD_SKILL';
-const DELETE_SKILL = 'DELETE_SKILL';
-const ADD_PROJECT = 'ADD_PROJECT';
-const UPDATE_PROJECT = 'UPDATE_PROJECT';
-const DELETE_PROJECT = 'DELETE_PROJECT';
-const ADD_SOCIAL = 'ADD_SOCIAL';
-const DELETE_SOCIAL = 'DELETE_SOCIAL';
-const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
-
-// ---------------- INITIAL STATE ----------------
+// Redux-like state management using useReducer
 const initialState = {
-  currentPage: 1,
-  profile: { fname: '', lname: '', phone: '', address: '', url: '' },
+  currentPage: 0,
+  profile: {
+    fname: '',
+    lname: '',
+    phone: '',
+    address: '',
+    url: ''
+  },
   education: [],
   skills: [],
   projects: [],
   socialMedia: []
 };
 
-// ---------------- REDUCER ----------------
 const resumeReducer = (state, action) => {
   switch (action.type) {
-    case UPDATE_PROFILE:
-      return { ...state, profile: { ...state.profile, ...action.payload } };
-    case ADD_EDUCATION:
-      return { ...state, education: [...state.education, { courseName: '', completionYear: '', college: '', percentage: '' }] };
-    case UPDATE_EDUCATION:
-      const updatedEdu = [...state.education];
-      updatedEdu[action.payload.index] = action.payload.education;
-      return { ...state, education: updatedEdu };
-    case DELETE_EDUCATION:
-      return { ...state, education: state.education.filter((_, i) => i !== action.payload) };
-    case ADD_SKILL:
-      return { ...state, skills: [...state.skills, action.payload] };
-    case DELETE_SKILL:
-      return { ...state, skills: state.skills.filter((_, i) => i !== action.payload) };
-    case ADD_PROJECT:
-      return { ...state, projects: [...state.projects, { projectName: '', techStack: '', description: '' }] };
-    case UPDATE_PROJECT:
-      const updatedProj = [...state.projects];
-      updatedProj[action.payload.index] = action.payload.project;
-      return { ...state, projects: updatedProj };
-    case DELETE_PROJECT:
-      return { ...state, projects: state.projects.filter((_, i) => i !== action.payload) };
-    case ADD_SOCIAL:
-      return { ...state, socialMedia: [...state.socialMedia, action.payload] };
-    case DELETE_SOCIAL:
-      return { ...state, socialMedia: state.socialMedia.filter((_, i) => i !== action.payload) };
-    case SET_CURRENT_PAGE:
+    case 'SET_CURRENT_PAGE':
       return { ...state, currentPage: action.payload };
+    
+    case 'UPDATE_PROFILE':
+      return { ...state, profile: { ...state.profile, ...action.payload } };
+    
+    case 'ADD_EDUCATION':
+      return { ...state, education: [...state.education, action.payload] };
+    
+    case 'UPDATE_EDUCATION':
+      return {
+        ...state,
+        education: state.education.map((item, index) =>
+          index === action.index ? { ...item, ...action.payload } : item
+        )
+      };
+    
+    case 'DELETE_EDUCATION':
+      return {
+        ...state,
+        education: state.education.filter((_, index) => index !== action.index)
+      };
+    
+    case 'ADD_SKILL':
+      return { ...state, skills: [...state.skills, action.payload] };
+    
+    case 'DELETE_SKILL':
+      return {
+        ...state,
+        skills: state.skills.filter((_, index) => index !== action.index)
+      };
+    
+    case 'ADD_PROJECT':
+      return { ...state, projects: [...state.projects, action.payload] };
+    
+    case 'UPDATE_PROJECT':
+      return {
+        ...state,
+        projects: state.projects.map((item, index) =>
+          index === action.index ? { ...item, ...action.payload } : item
+        )
+      };
+    
+    case 'DELETE_PROJECT':
+      return {
+        ...state,
+        projects: state.projects.filter((_, index) => index !== action.index)
+      };
+    
+    case 'ADD_SOCIAL':
+      return { ...state, socialMedia: [...state.socialMedia, action.payload] };
+    
+    case 'DELETE_SOCIAL':
+      return {
+        ...state,
+        socialMedia: state.socialMedia.filter((_, index) => index !== action.index)
+      };
+    
+    case 'LOAD_RESUME':
+      return { ...action.payload, currentPage: 0 };
+    
     default:
       return state;
   }
 };
 
-// ---------------- CONTEXT ----------------
-const ResumeContext = createContext();
-const useResume = () => useContext(ResumeContext);
-
-// ---------------- PROFILE PAGE ----------------
-const ProfilePage = () => {
-  const { state, dispatch } = useResume();
-  const { profile } = state;
-  const handleChange = (f, v) => dispatch({ type: UPDATE_PROFILE, payload: { [f]: v } });
+// Profile Page Component
+const ProfilePage = ({ state, dispatch }) => {
+  const handleInputChange = (field, value) => {
+    dispatch({ type: 'UPDATE_PROFILE', payload: { [field]: value } });
+  };
 
   return (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold flex items-center gap-2"><User /> Profile</h2>
-      <div className="grid md:grid-cols-2 gap-4">
-        <input name="fname" value={profile.fname} onChange={(e)=>handleChange('fname', e.target.value)} placeholder="First Name" className="border p-2 rounded"/>
-        <input name="lname" value={profile.lname} onChange={(e)=>handleChange('lname', e.target.value)} placeholder="Last Name" className="border p-2 rounded"/>
-        <input name="phone" value={profile.phone} onChange={(e)=>handleChange('phone', e.target.value)} placeholder="Phone" className="border p-2 rounded"/>
-        <input name="url" value={profile.url} onChange={(e)=>handleChange('url', e.target.value)} placeholder="Website URL" className="border p-2 rounded"/>
-        <textarea name="address" value={profile.address} onChange={(e)=>handleChange('address', e.target.value)} placeholder="Address" className="border p-2 rounded md:col-span-2"/>
+      <h2 className="text-2xl font-bold text-gray-800 mb-6">Profile Information</h2>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">First Name</label>
+          <input
+            name="fname"
+            type="text"
+            value={state.profile.fname}
+            onChange={(e) => handleInputChange('fname', e.target.value)}
+            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            placeholder="Enter first name"
+          />
+        </div>
+        
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Last Name</label>
+          <input
+            name="lname"
+            type="text"
+            value={state.profile.lname}
+            onChange={(e) => handleInputChange('lname', e.target.value)}
+            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            placeholder="Enter last name"
+          />
+        </div>
+      </div>
+      
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">Phone</label>
+        <input
+          name="phone"
+          type="tel"
+          value={state.profile.phone}
+          onChange={(e) => handleInputChange('phone', e.target.value)}
+          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          placeholder="Enter phone number"
+        />
+      </div>
+      
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">Address</label>
+        <textarea
+          name="address"
+          value={state.profile.address}
+          onChange={(e) => handleInputChange('address', e.target.value)}
+          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          rows="3"
+          placeholder="Enter your address"
+        />
+      </div>
+      
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-2">Portfolio/Website URL</label>
+        <input
+          name="url"
+          type="url"
+          value={state.profile.url}
+          onChange={(e) => handleInputChange('url', e.target.value)}
+          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          placeholder="https://your-website.com"
+        />
       </div>
     </div>
   );
 };
 
-// ---------------- EDUCATION PAGE ----------------
-const EducationPage = () => {
-  const { state, dispatch } = useResume();
-  const add = () => dispatch({ type: ADD_EDUCATION });
-  const update = (i, f, v) => {
-    const newEdu = { ...state.education[i], [f]: v };
-    dispatch({ type: UPDATE_EDUCATION, payload: { index: i, education: newEdu } });
+// Education Page Component
+const EducationPage = ({ state, dispatch }) => {
+  const [newEducation, setNewEducation] = useState({
+    courseName: '',
+    completionYear: '',
+    college: '',
+    percentage: ''
+  });
+
+  const handleAddEducation = () => {
+    if (newEducation.courseName.trim()) {
+      dispatch({ type: 'ADD_EDUCATION', payload: newEducation });
+      setNewEducation({ courseName: '', completionYear: '', college: '', percentage: '' });
+    }
   };
-  const del = (i) => dispatch({ type: DELETE_EDUCATION, payload: i });
+
+  const handleDeleteEducation = (index) => {
+    dispatch({ type: 'DELETE_EDUCATION', index });
+  };
 
   return (
-    <div>
-      <div className="flex justify-between items-center mb-4"><h2 className="font-bold text-2xl flex gap-2 items-center"><GraduationCap/> Education</h2><button id="add_education" onClick={add} className="bg-blue-600 text-white px-4 py-2 rounded">+ Add</button></div>
-      {state.education.map((e,i)=>(
-        <div key={i} className="border p-4 rounded mb-3">
-          <div className="flex justify-between"><h3>Education #{i+1}</h3><button id="delete" onClick={()=>del(i)}><Trash2/></button></div>
-          <input name="courseName" value={e.courseName} onChange={(ev)=>update(i,'courseName',ev.target.value)} placeholder="Course Name" className="border p-2 w-full my-1"/>
-          <input name="completionYear" value={e.completionYear} onChange={(ev)=>update(i,'completionYear',ev.target.value)} placeholder="Year" className="border p-2 w-full my-1"/>
-          <input name="college" value={e.college} onChange={(ev)=>update(i,'college',ev.target.value)} placeholder="College" className="border p-2 w-full my-1"/>
-          <input name="percentage" value={e.percentage} onChange={(ev)=>update(i,'percentage',ev.target.value)} placeholder="Percentage/GPA" className="border p-2 w-full my-1"/>
+    <div className="space-y-6">
+      <h2 className="text-2xl font-bold text-gray-800 mb-6">Education</h2>
+      
+      <div className="bg-gray-50 p-4 rounded-lg">
+        <h3 className="text-lg font-semibold mb-4">Add Education</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <input
+            name="courseName"
+            type="text"
+            value={newEducation.courseName}
+            onChange={(e) => setNewEducation({ ...newEducation, courseName: e.target.value })}
+            className="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            placeholder="Course Name"
+          />
+          <input
+            name="completionYear"
+            type="text"
+            value={newEducation.completionYear}
+            onChange={(e) => setNewEducation({ ...newEducation, completionYear: e.target.value })}
+            className="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            placeholder="Completion Year"
+          />
+          <input
+            name="college"
+            type="text"
+            value={newEducation.college}
+            onChange={(e) => setNewEducation({ ...newEducation, college: e.target.value })}
+            className="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            placeholder="College/University"
+          />
+          <input
+            name="percentage"
+            type="text"
+            value={newEducation.percentage}
+            onChange={(e) => setNewEducation({ ...newEducation, percentage: e.target.value })}
+            className="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            placeholder="Percentage/GPA"
+          />
         </div>
-      ))}
-    </div>
-  );
-};
-
-// ---------------- SKILLS PAGE ----------------
-const SkillsPage = () => {
-  const { state, dispatch } = useResume();
-  const [val, setVal] = useState('');
-  const add = () => { if(val.trim()){dispatch({ type: ADD_SKILL, payload: val }); setVal('');}};
-  const del = (i)=>dispatch({ type: DELETE_SKILL, payload:i });
-  return (
-    <div>
-      <h2 className="font-bold text-2xl flex gap-2 items-center"><Code/> Skills</h2>
-      <div className="flex gap-2 my-3"><input name="skill" value={val} onChange={e=>setVal(e.target.value)} placeholder="Skill" className="border p-2 flex-1"/><button id="add_skill" onClick={add} className="bg-blue-600 text-white px-3 rounded"><Plus/></button></div>
-      <div className="flex gap-2 flex-wrap">{state.skills.map((s,i)=><div key={i} className="bg-blue-100 px-3 py-1 rounded-full flex gap-2 items-center">{s}<button id="delete_skill" onClick={()=>del(i)}><Trash2 className="w-4 h-4"/></button></div>)}</div>
-    </div>
-  );
-};
-
-// ---------------- PROJECTS PAGE ----------------
-const ProjectsPage = () => {
-  const { state, dispatch } = useResume();
-  const add = ()=>dispatch({ type: ADD_PROJECT });
-  const update = (i,f,v)=>dispatch({ type: UPDATE_PROJECT, payload:{ index:i, project:{ ...state.projects[i],[f]:v } }});
-  const del = (i)=>dispatch({ type: DELETE_PROJECT, payload:i });
-  return (
-    <div>
-      <div className="flex justify-between items-center mb-4"><h2 className="font-bold text-2xl flex items-center gap-2"><FolderOpen/> Projects</h2><button id="add_project" onClick={add} className="bg-blue-600 text-white px-4 py-2 rounded">+ Add</button></div>
-      {state.projects.map((p,i)=>(
-        <div key={i} className="border p-4 rounded mb-3">
-          <div className="flex justify-between"><h3>Project #{i+1}</h3><button id="delete" onClick={()=>del(i)}><Trash2/></button></div>
-          <input name="projectName" value={p.projectName} onChange={(e)=>update(i,'projectName',e.target.value)} placeholder="Project Name" className="border p-2 w-full my-1"/>
-          <input name="techStack" value={p.techStack} onChange={(e)=>update(i,'techStack',e.target.value)} placeholder="Tech Stack" className="border p-2 w-full my-1"/>
-          <textarea name="description" value={p.description} onChange={(e)=>update(i,'description',e.target.value)} placeholder="Description" className="border p-2 w-full my-1"/>
-        </div>
-      ))}
-    </div>
-  );
-};
-
-// ---------------- SOCIAL MEDIA PAGE ----------------
-const SocialMediaPage = () => {
-  const { state, dispatch } = useResume();
-  const [val, setVal] = useState('');
-  const add = ()=>{ if(val.trim()){dispatch({ type: ADD_SOCIAL, payload:val }); setVal('');}};
-  const del = (i)=>dispatch({ type: DELETE_SOCIAL, payload:i });
-  return (
-    <div>
-      <h2 className="font-bold text-2xl flex items-center gap-2"><Globe/> Social Media</h2>
-      <div className="flex gap-2 my-3"><input name="Social" value={val} onChange={e=>setVal(e.target.value)} placeholder="URL" className="border p-2 flex-1"/><button id="add_social" onClick={add} className="bg-blue-600 text-white px-3 rounded"><Plus/></button></div>
-      {state.socialMedia.map((s,i)=><div key={i} className="flex justify-between bg-gray-100 p-2 rounded my-1"><a href={s} target="_blank" rel="noreferrer" className="text-blue-600">{s}</a><button onClick={()=>del(i)}><Trash2/></button></div>)}
-    </div>
-  );
-};
-
-// ---------------- PREVIEW PAGE ----------------
-const ResumePreview = () => {
-  const { state } = useResume();
-  return (
-    <div className="p-6 bg-white border rounded">
-      <h1 className="text-3xl font-bold text-center">{state.profile.fname} {state.profile.lname}</h1>
-      <p className="text-center text-gray-600">{state.profile.phone} | {state.profile.url}</p>
-      <p className="text-center text-gray-600">{state.profile.address}</p>
-      <hr className="my-4"/>
-      {state.education.length>0 && <><h2 className="font-bold text-xl">Education</h2>{state.education.map((e,i)=><p key={i}>{e.courseName} - {e.college} ({e.completionYear}) {e.percentage}</p>)}</>}
-      {state.skills.length>0 && <><h2 className="font-bold text-xl mt-3">Skills</h2><div className="flex flex-wrap gap-2">{state.skills.map((s,i)=><span key={i} className="bg-blue-100 px-2 rounded">{s}</span>)}</div></>}
-      {state.projects.length>0 && <><h2 className="font-bold text-xl mt-3">Projects</h2>{state.projects.map((p,i)=><div key={i}><h3 className="font-semibold">{p.projectName}</h3><p>{p.techStack}</p><p>{p.description}</p></div>)}</>}
-      {state.socialMedia.length>0 && <><h2 className="font-bold text-xl mt-3">Social Media</h2>{state.socialMedia.map((s,i)=><p key={i}><a href={s} className="text-blue-600">{s}</a></p>)}</>}
-    </div>
-  );
-};
-
-// ---------------- NAVIGATION ----------------
-const Navigation = () => {
-  const { state, dispatch } = useResume();
-  const back=()=>dispatch({ type: SET_CURRENT_PAGE, payload: state.currentPage-1 });
-  const next=()=>dispatch({ type: SET_CURRENT_PAGE, payload: state.currentPage+1 });
-  const save=()=>{ alert("Resume Saved!"); console.log(state);};
-  return (
-    <div className="flex justify-between my-4">
-      <button id="back" onClick={back} disabled={state.currentPage===1} className="px-4 py-2 bg-gray-300 rounded flex items-center gap-2"><ArrowLeft/> Back</button>
-      <button id="save_continue" onClick={save} className="px-4 py-2 bg-green-600 text-white rounded flex items-center gap-2"><Save/> Save</button>
-      <button id="next" onClick={next} disabled={state.currentPage===6} className="px-4 py-2 bg-blue-600 text-white rounded flex items-center gap-2">Next <ArrowRight/></button>
-    </div>
-  );
-};
-
-// ---------------- MAIN APP ----------------
-export default function ResumeBuilder() {
-  const [state, dispatch] = useReducer(resumeReducer, initialState);
-  const render=()=>({1:<ProfilePage/>,2:<EducationPage/>,3:<SkillsPage/>,4:<ProjectsPage/>,5:<SocialMediaPage/>,6:<ResumePreview/>}[state.currentPage]);
-
-  return (
-    <ResumeContext.Provider value={{ state, dispatch }}>
-      <div className="min-h-screen bg-gray-100 p-6">
-        <h1 className="text-3xl font-bold text-center mb-6">Resume Builder</h1>
-        <Navigation/>
-        <div className="bg-white p-6 rounded shadow">{render()}</div>
+        <button
+          id="add_education"
+          onClick={handleAddEducation}
+          className="mt-4 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+        >
+          Add Education
+        </button>
       </div>
-    </ResumeContext.Provider>
+
+      <div className="space-y-4">
+        {state.education.map((edu, index) => (
+          <div key={index} className="bg-white p-4 border border-gray-200 rounded-lg">
+            <div className="flex justify-between items-start">
+              <div className="flex-1">
+                <h4 className="font-semibold text-lg">{edu.courseName}</h4>
+                <p className="text-gray-600">{edu.college}</p>
+                <p className="text-gray-500">{edu.completionYear} • {edu.percentage}</p>
+              </div>
+              <button
+                id="delete"
+                onClick={() => handleDeleteEducation(index)}
+                className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
   );
-}
+};
+
+// Skills Page Component
+const SkillsPage = ({ state, dispatch }) => {
+  const [newSkill, setNewSkill] = useState('');
+
+  const handleAddSkill = () => {
+    if (newSkill.trim()) {
+      dispatch({ type: 'ADD_SKILL', payload: newSkill });
+      setNewSkill('');
+    }
+  };
+
+  const handleDeleteSkill = (index) => {
+    dispatch({ type: 'DELETE_SKILL', index });
+  };
+
+  return (
+    <div className="space-y-6">
+      <h2 className="text-2xl font-bold text-gray-800 mb-6">Skills</h2>
+      
+      <div className="bg-gray-50 p-4 rounded-lg">
+        <h3 className="text-lg font-semibold mb-4">Add Skill</h3>
+        <div className="flex gap-4">
+          <input
+            name="skill"
+            type="text"
+            value={newSkill}
+            onChange={(e) => setNewSkill(e.target.value)}
+            className="flex-1 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            placeholder="Enter a skill"
+          />
+          <button
+            id="add_skill"
+            onClick={handleAddSkill}
+            className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            Add Skill
+          </button>
+        </div>
+      </div>
+
+      <div className="flex flex-wrap gap-2">
+        {state.skills.map((skill, index) => (
+          <div key={index} className="bg-blue-100 px-4 py-2 rounded-full flex items-center gap-2">
+            <span className="text-blue-800">{skill}</span>
+            <button
+              id="delete_skill"
+              onClick={() => handleDeleteSkill(index)}
+              className="text-red-500 hover:text-red-700 font-bold"
+            >
+              ×
+            </button>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+// Projects Page Component
+const ProjectsPage = ({ state, dispatch }) => {
+  const [newProject, setNewProject] = useState({
+    projectName: '',
+    techStack: '',
+    description: ''
+  });
+
+  const handleAddProject = () => {
+    if (newProject.projectName.trim()) {
+      dispatch({ type: 'ADD_PROJECT', payload: newProject });
+      setNewProject({ projectName: '', techStack: '', description: '' });
+    }
+  };
+
+  const handleDeleteProject = (index) => {
+    dispatch({ type: 'DELETE_PROJECT', index });
+  };
+
+  return (
+    <div className="space-y-6">
+      <h2 className="text-2xl font-bold text-gray-800 mb-6">Projects</h2>
+      
+      <div className="bg-gray-50 p-4 rounded-lg">
+        <h3 className="text-lg font-semibold mb-4">Add Project</h3>
+        <div className="space-y-4">
+          <input
+            name="projectName"
+            type="text"
+            value={newProject.projectName}
+            onChange={(e) => setNewProject({ ...newProject, projectName: e.target.value })}
+            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            placeholder="Project Name"
+          />
+          <input
+            name="techStack"
+            type="text"
+            value={newProject.techStack}
+            onChange={(e) => setNewProject({ ...newProject, techStack: e.target.value })}
+            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            placeholder="Tech Stack (e.g., React, Node.js, MongoDB)"
+          />
+          <textarea
+            name="description"
+            value={newProject.description}
+            onChange={(e) => setNewProject({ ...newProject, description: e.target.value })}
+            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            rows="3"
+            placeholder="Project Description"
+          />
+        </div>
+        <button
+          id="add_project"
+          onClick={handleAddProject}
+          className="mt-4 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+        >
+          Add Project
+        </button>
+      </div>
+
+      <div className="space-y-4">
+        {state.projects.map((project, index) => (
+          <div key={index} className="bg-white p-4 border border-gray-200 rounded-lg">
+            <div className="flex justify-between items-start">
+              <div className="flex-1">
+                <h4 className="font-semibold text-lg">{project.projectName}</h4>
+                <p className="text-blue-600 font-medium">{project.techStack}</p>
+                <p className="text-gray-600 mt-2">{project.description}</p>
+              </div>
+              <button
+                id="delete"
+                onClick={() => handleDeleteProject(index)}
+                className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+// Social Media Page Component
+const SocialMediaPage = ({ state, dispatch }) => {
+  const [newSocial, setNewSocial] = useState('');
+
+  const handleAddSocial = () => {
+    if (newSocial.trim()) {
+      dispatch({ type: 'ADD_SOCIAL', payload: newSocial });
+      setNewSocial('');
+    }
+  };
+
+  const handleDeleteSocial = (index) => {
+    dispatch({ type: 'DELETE_SOCIAL', index });
+  };
+
+  return (
+    <div className="space-y-6">
+      <h2 className="text-2xl font-bold text-gray-800 mb-6">Social Media</h2>
+      
+      <div className="bg-gray-50 p-4 rounded-lg">
+        <h3 className="text-lg font-semibold mb-4">Add Social Media Link</h3>
+        <div className="flex gap-4">
+          <input
+            name="Social"
+            type="url"
+            value={newSocial}
+            onChange={(e) => setNewSocial(e.target.value)}
+            className="flex-1 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            placeholder="https://linkedin.com/in/yourprofile"
+          />
+          <button
+            id="add_social"
+            onClick={handleAddSocial}
+            className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            Add Social
+          </button>
+        </div>
+      </div>
+
+      <div className="space-y-2">
+        {state.socialMedia.map((social, index) => (
+          <div key={index} className="bg-white p-3 border border-gray-200 rounded-lg flex justify-between items-center">
+            <a href={social} className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">
+              {social}
+            </a>
+            <button
+              onClick={() => handleDeleteSocial(index)}
+              className="text-red-500 hover:text-red-700 font-bold"
+            >
+              ×
+            </button>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+// Resume Preview Component
+const ResumePreview = ({ state }) => {
+  const saveToDatabase = () => {
+    // Simulate saving to database
+    const resumeData = JSON.stringify(state, null, 2);
+    console.log('Saving resume to database:', resumeData);
+    alert('Resume saved successfully!');
+  };
+
+  return (
+    <div className="space-y-6">
+      <div className="flex justify-between items-center">
+        <h2 className="text-2xl font-bold text-gray-800">Resume Preview</h2>
+        <button
+          onClick={saveToDatabase}
+          className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors"
+        >
+          Save Resume
+        </button>
+      </div>
+      
+      <div className="bg-white p-8 border-2 border-gray-200 rounded-lg max-w-4xl mx-auto">
+        {/* Profile Section */}
+        <div className="text-center mb-8">
+          <h1 className="text-3xl font-bold text-gray-900">
+            {state.profile.fname} {state.profile.lname}
+          </h1>
+          <div className="mt-2 text-gray-600">
+            <p>{state.profile.phone}</p>
+            <p>{state.profile.address}</p>
+            {state.profile.url && (
+              <a href={state.profile.url} className="text-blue-600 hover:underline">
+                {state.profile.url}
+              </a>
+            )}
+          </div>
+        </div>
+
+        {/* Education Section */}
+        {state.education.length > 0 && (
+          <div className="mb-6">
+            <h3 className="text-xl font-bold text-gray-800 border-b-2 border-gray-200 pb-2 mb-4">
+              Education
+            </h3>
+            {state.education.map((edu, index) => (
+              <div key={index} className="mb-3">
+                <div className="flex justify-between">
+                  <div>
+                    <h4 className="font-semibold">{edu.courseName}</h4>
+                    <p className="text-gray-600">{edu.college}</p>
+                  </div>
+                  <div className="text-right text-gray-500">
+                    <p>{edu.completionYear}</p>
+                    <p>{edu.percentage}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Skills Section */}
+        {state.skills.length > 0 && (
+          <div className="mb-6">
+            <h3 className="text-xl font-bold text-gray-800 border-b-2 border-gray-200 pb-2 mb-4">
+              Skills
+            </h3>
+            <div className="flex flex-wrap gap-2">
+              {state.skills.map((skill, index) => (
+                <span key={index} className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">
+                  {skill}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Projects Section */}
+        {state.projects.length > 0 && (
+          <div className="mb-6">
+            <h3 className="text-xl font-bold text-gray-800 border-b-2 border-gray-200 pb-2 mb-4">
+              Projects
+            </h3>
+            {state.projects.map((project, index) => (
+              <div key={index} className="mb-4">
+                <h4 className="font-semibold">{project.projectName}</h4>
+                <p className="text-blue-600 text-sm font-medium">{project.techStack}</p>
+                <p className="text-gray-600 mt-1">{project.description}</p>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* Social Media Section */}
+        {state.socialMedia.length > 0 && (
+          <div className="mb-6">
+            <h3 className="text-xl font-bold text-gray-800 border-b-2 border-gray-200 pb-2 mb-4">
+              Social Media
+            </h3>
+            <div className="space-y-1">
+              {state.socialMedia.map((social, index) => (
+                <a key={index} href={social} className="block text-blue-600 hover:underline">
+                  {social}
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+// Main Resume Builder Component
+const ResumeBuilder = () => {
+  const [state, dispatch] = useReducer(resumeReducer, initialState);
+  const [savedResumes] = useState([]); // For demonstration - would connect to actual database
+
+  const pages = [
+    { title: 'Profile', component: ProfilePage },
+    { title: 'Education', component: EducationPage },
+    { title: 'Skills', component: SkillsPage },
+    { title: 'Projects', component: ProjectsPage },
+    { title: 'Social Media', component: SocialMediaPage },
+    { title: 'Preview', component: ResumePreview }
+  ];
+
+  const currentPageComponent = pages[state.currentPage].component;
+
+  const handleNext = () => {
+    if (state.currentPage < pages.length - 1) {
+      dispatch({ type: 'SET_CURRENT_PAGE', payload: state.currentPage + 1 });
+    }
+  };
+
+  const handleBack = () => {
+    if (state.currentPage > 0) {
+      dispatch({ type: 'SET_CURRENT_PAGE', payload: state.currentPage - 1 });
+    }
+  };
+
+  const handleSave = () => {
+    // Simulate saving to database
+    alert('Progress saved!');
+  };
+
+  const loadSampleData = () => {
+    const sampleData = {
+      currentPage: 0,
+      profile: {
+        fname: 'John',
+        lname: 'Doe',
+        phone: '+1 (555) 123-4567',
+        address: '123 Main St, City, State 12345',
+        url: 'https://johndoe.dev'
+      },
+      education: [
+        {
+          courseName: 'Computer Science',
+          completionYear: '2023',
+          college: 'Tech University',
+          percentage: '3.8 GPA'
+        }
+      ],
+      skills: ['JavaScript', 'React', 'Node.js', 'Python', 'SQL'],
+      projects: [
+        {
+          projectName: 'E-commerce Platform',
+          techStack: 'React, Node.js, MongoDB',
+          description: 'Full-stack e-commerce application with payment integration and admin dashboard.'
+        }
+      ],
+      socialMedia: ['https://linkedin.com/in/johndoe', 'https://github.com/johndoe']
+    };
+    dispatch({ type: 'LOAD_RESUME', payload: sampleData });
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-100">
+      <div className="container mx-auto px-4 py-8">
+        <div className="bg-white rounded-lg shadow-lg overflow-hidden">
+          {/* Header */}
+          <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6">
+            <h1 className="text-3xl font-bold text-center">Resume Builder</h1>
+            <div className="flex justify-center mt-4">
+              <button
+                onClick={loadSampleData}
+                className="bg-white text-blue-600 px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors"
+              >
+                Load Sample Data
+              </button>
+            </div>
+          </div>
+
+          {/* Progress Bar */}
+          <div className="bg-gray-200 h-2">
+            <div 
+              className="bg-blue-600 h-2 transition-all duration-300"
+              style={{ width: `${((state.currentPage + 1) / pages.length) * 100}%` }}
+            />
+          </div>
+
+          {/* Page Indicator */}
+          <div className="bg-gray-50 p-4">
+            <div className="flex justify-center space-x-4">
+              {pages.map((page, index) => (
+                <div
+                  key={index}
+                  className={`px-3 py-1 rounded-full text-sm ${
+                    index === state.currentPage
+                      ? 'bg-blue-600 text-white'
+                      : index < state.currentPage
+                      ? 'bg-green-500 text-white'
+                      : 'bg-gray-200 text-gray-600'
+                  }`}
+                >
+                  {index + 1}. {page.title}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Page Content */}
+          <div className="p-8">
+            {React.createElement(currentPageComponent, { state, dispatch })}
+          </div>
+
+          {/* Navigation */}
+          <div className="bg-gray-50 p-6 flex justify-between">
+            <button
+              id="back"
+              onClick={handleBack}
+              disabled={state.currentPage === 0}
+              className={`px-6 py-2 rounded-lg transition-colors ${
+                state.currentPage === 0
+                  ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                  : 'bg-gray-600 text-white hover:bg-gray-700'
+              }`}
+            >
+              Back
+            </button>
+
+            <div className="space-x-4">
+              <button
+                id="save_continue"
+                onClick={handleSave}
+                className="bg-yellow-600 text-white px-6 py-2 rounded-lg hover:bg-yellow-700 transition-colors"
+              >
+                Save
+              </button>
+
+              <button
+                id="next"
+                onClick={handleNext}
+                disabled={state.currentPage === pages.length - 1}
+                className={`px-6 py-2 rounded-lg transition-colors ${
+                  state.currentPage === pages.length - 1
+                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    : 'bg-blue-600 text-white hover:bg-blue-700'
+                }`}
+              >
+                {state.currentPage === pages.length - 1 ? 'Finished' : 'Next'}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ResumeBuilder;
