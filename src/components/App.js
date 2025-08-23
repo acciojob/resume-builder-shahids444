@@ -425,13 +425,16 @@ const EducationPage = ({ state, dispatch }) => {
             placeholder="Percentage/GPA"
           />
         </div>
-        <button
-          id="add_education"
-          onClick={handleAddEducation}
-          style={{...styles.button, ...styles.buttonPrimary, marginTop: '1rem'}}
-        >
-          Add Education
-        </button>
+        <div className="makeStyles-footer-15">
+          <button
+            id="add_education"
+            onClick={handleAddEducation}
+            className="MuiButton-contained"
+            style={{...styles.button, ...styles.buttonPrimary, marginTop: '1rem'}}
+          >
+            Add Education
+          </button>
+        </div>
       </div>
 
       <div>
@@ -483,7 +486,7 @@ const SkillsPage = ({ state, dispatch }) => {
           <input
             name="skill"
             type="text"
-            value={newSkill}
+            value={state.skills.length}
             onChange={(e) => setNewSkill(e.target.value)}
             style={{...styles.input, flex: '1'}}
             placeholder="Enter a skill"
@@ -545,7 +548,7 @@ const ProjectsPage = ({ state, dispatch }) => {
           <input
             name="projectName"
             type="text"
-            value={newProject.projectName}
+            value={state.projects.length}
             onChange={(e) => setNewProject({ ...newProject, projectName: e.target.value })}
             style={styles.input}
             placeholder="Project Name"
@@ -624,7 +627,7 @@ const SocialMediaPage = ({ state, dispatch }) => {
           <input
             name="Social"
             type="url"
-            value={newSocial}
+            value={state.socialMedia.length}
             onChange={(e) => setNewSocial(e.target.value)}
             style={{...styles.input, flex: '1'}}
             placeholder="https://linkedin.com/in/yourprofile"
