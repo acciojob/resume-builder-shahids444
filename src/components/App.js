@@ -84,6 +84,212 @@ const resumeReducer = (state, action) => {
   }
 };
 
+// CSS Styles
+const styles = {
+  container: {
+    minHeight: '100vh',
+    backgroundColor: '#f5f5f5',
+    fontFamily: 'Arial, sans-serif'
+  },
+  mainCard: {
+    maxWidth: '1200px',
+    margin: '0 auto',
+    backgroundColor: 'white',
+    borderRadius: '8px',
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+    overflow: 'hidden'
+  },
+  header: {
+    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+    color: 'white',
+    padding: '2rem',
+    textAlign: 'center'
+  },
+  headerTitle: {
+    fontSize: '2.5rem',
+    fontWeight: 'bold',
+    margin: '0'
+  },
+  loadButton: {
+    backgroundColor: 'white',
+    color: '#667eea',
+    padding: '0.75rem 1.5rem',
+    border: 'none',
+    borderRadius: '6px',
+    cursor: 'pointer',
+    marginTop: '1rem',
+    fontWeight: '500'
+  },
+  progressBar: {
+    width: '100%',
+    height: '4px',
+    backgroundColor: '#e2e8f0',
+    position: 'relative'
+  },
+  progressFill: {
+    height: '100%',
+    backgroundColor: '#4f46e5',
+    transition: 'width 0.3s ease'
+  },
+  pageIndicator: {
+    backgroundColor: '#f8fafc',
+    padding: '1rem',
+    display: 'flex',
+    justifyContent: 'center',
+    gap: '1rem',
+    flexWrap: 'wrap'
+  },
+  pageTab: {
+    padding: '0.5rem 1rem',
+    borderRadius: '20px',
+    fontSize: '0.875rem',
+    fontWeight: '500'
+  },
+  pageTabActive: {
+    backgroundColor: '#4f46e5',
+    color: 'white'
+  },
+  pageTabComplete: {
+    backgroundColor: '#10b981',
+    color: 'white'
+  },
+  pageTabInactive: {
+    backgroundColor: '#e2e8f0',
+    color: '#64748b'
+  },
+  pageContent: {
+    padding: '2rem'
+  },
+  pageTitle: {
+    fontSize: '2rem',
+    fontWeight: 'bold',
+    color: '#1f2937',
+    marginBottom: '2rem'
+  },
+  formGroup: {
+    marginBottom: '1.5rem'
+  },
+  label: {
+    display: 'block',
+    fontSize: '0.875rem',
+    fontWeight: '600',
+    color: '#374151',
+    marginBottom: '0.5rem'
+  },
+  input: {
+    width: '100%',
+    padding: '0.75rem',
+    border: '1px solid #d1d5db',
+    borderRadius: '6px',
+    fontSize: '1rem',
+    transition: 'border-color 0.2s, box-shadow 0.2s',
+    boxSizing: 'border-box'
+  },
+  inputFocus: {
+    outline: 'none',
+    borderColor: '#4f46e5',
+    boxShadow: '0 0 0 3px rgba(79, 70, 229, 0.1)'
+  },
+  textarea: {
+    width: '100%',
+    padding: '0.75rem',
+    border: '1px solid #d1d5db',
+    borderRadius: '6px',
+    fontSize: '1rem',
+    minHeight: '100px',
+    resize: 'vertical',
+    boxSizing: 'border-box'
+  },
+  gridTwoColumns: {
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
+    gap: '1rem'
+  },
+  addSection: {
+    backgroundColor: '#f8fafc',
+    padding: '1.5rem',
+    borderRadius: '8px',
+    marginBottom: '2rem'
+  },
+  addSectionTitle: {
+    fontSize: '1.25rem',
+    fontWeight: '600',
+    marginBottom: '1rem'
+  },
+  button: {
+    padding: '0.75rem 1.5rem',
+    border: 'none',
+    borderRadius: '6px',
+    fontSize: '1rem',
+    fontWeight: '500',
+    cursor: 'pointer',
+    transition: 'background-color 0.2s'
+  },
+  buttonPrimary: {
+    backgroundColor: '#4f46e5',
+    color: 'white'
+  },
+  buttonSecondary: {
+    backgroundColor: '#6b7280',
+    color: 'white'
+  },
+  buttonDanger: {
+    backgroundColor: '#ef4444',
+    color: 'white'
+  },
+  buttonDisabled: {
+    backgroundColor: '#d1d5db',
+    color: '#9ca3af',
+    cursor: 'not-allowed'
+  },
+  flexBetween: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  flexGap: {
+    display: 'flex',
+    gap: '1rem',
+    alignItems: 'center'
+  },
+  skillTag: {
+    display: 'inline-flex',
+    alignItems: 'center',
+    backgroundColor: '#dbeafe',
+    color: '#1e40af',
+    padding: '0.5rem 1rem',
+    borderRadius: '20px',
+    margin: '0.25rem',
+    gap: '0.5rem'
+  },
+  deleteButton: {
+    backgroundColor: 'transparent',
+    border: 'none',
+    color: '#ef4444',
+    cursor: 'pointer',
+    fontWeight: 'bold',
+    fontSize: '1.2rem'
+  },
+  card: {
+    backgroundColor: 'white',
+    border: '1px solid #e5e7eb',
+    borderRadius: '8px',
+    padding: '1.5rem',
+    marginBottom: '1rem'
+  },
+  navigation: {
+    backgroundColor: '#f8fafc',
+    padding: '1.5rem',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  navigationButtons: {
+    display: 'flex',
+    gap: '1rem'
+  }
+};
+
 // Profile Page Component
 const ProfilePage = ({ state, dispatch }) => {
   const handleInputChange = (field, value) => {
@@ -91,67 +297,67 @@ const ProfilePage = ({ state, dispatch }) => {
   };
 
   return (
-    <div className="space-y-6">
-      <h2 className="text-2xl font-bold text-gray-800 mb-6">Profile Information</h2>
+    <div>
+      <h2 style={styles.pageTitle}>Add your profile details</h2>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">First Name</label>
+      <div style={styles.gridTwoColumns}>
+        <div style={styles.formGroup}>
+          <label style={styles.label}>First Name</label>
           <input
             name="fname"
             type="text"
             value={state.profile.fname}
             onChange={(e) => handleInputChange('fname', e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            style={styles.input}
             placeholder="Enter first name"
           />
         </div>
         
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Last Name</label>
+        <div style={styles.formGroup}>
+          <label style={styles.label}>Last Name</label>
           <input
             name="lname"
             type="text"
             value={state.profile.lname}
             onChange={(e) => handleInputChange('lname', e.target.value)}
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            style={styles.input}
             placeholder="Enter last name"
           />
         </div>
       </div>
       
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">Phone</label>
+      <div style={styles.formGroup}>
+        <label style={styles.label}>Phone</label>
         <input
           name="phone"
           type="tel"
           value={state.profile.phone}
           onChange={(e) => handleInputChange('phone', e.target.value)}
-          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          style={styles.input}
           placeholder="Enter phone number"
         />
       </div>
       
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">Address</label>
-        <textarea
+      <div style={styles.formGroup}>
+        <label style={styles.label}>Address</label>
+        <input
           name="address"
+          type="text"
           value={state.profile.address}
           onChange={(e) => handleInputChange('address', e.target.value)}
-          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-          rows="3"
+          style={styles.input}
           placeholder="Enter your address"
         />
       </div>
       
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">Portfolio/Website URL</label>
+      <div style={styles.formGroup}>
+        <label style={styles.label}>Portfolio/Website URL</label>
         <input
           name="url"
           type="url"
           value={state.profile.url}
           onChange={(e) => handleInputChange('url', e.target.value)}
-          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          style={styles.input}
           placeholder="https://your-website.com"
         />
       </div>
@@ -180,18 +386,18 @@ const EducationPage = ({ state, dispatch }) => {
   };
 
   return (
-    <div className="space-y-6">
-      <h2 className="text-2xl font-bold text-gray-800 mb-6">Education</h2>
+    <div>
+      <h2 style={styles.pageTitle}>Add your Education Details</h2>
       
-      <div className="bg-gray-50 p-4 rounded-lg">
-        <h3 className="text-lg font-semibold mb-4">Add Education</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div style={styles.addSection}>
+        <h3 style={styles.addSectionTitle}>Add Education</h3>
+        <div style={styles.gridTwoColumns}>
           <input
             name="courseName"
             type="text"
             value={newEducation.courseName}
             onChange={(e) => setNewEducation({ ...newEducation, courseName: e.target.value })}
-            className="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            style={styles.input}
             placeholder="Course Name"
           />
           <input
@@ -199,7 +405,7 @@ const EducationPage = ({ state, dispatch }) => {
             type="text"
             value={newEducation.completionYear}
             onChange={(e) => setNewEducation({ ...newEducation, completionYear: e.target.value })}
-            className="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            style={styles.input}
             placeholder="Completion Year"
           />
           <input
@@ -207,7 +413,7 @@ const EducationPage = ({ state, dispatch }) => {
             type="text"
             value={newEducation.college}
             onChange={(e) => setNewEducation({ ...newEducation, college: e.target.value })}
-            className="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            style={styles.input}
             placeholder="College/University"
           />
           <input
@@ -215,32 +421,32 @@ const EducationPage = ({ state, dispatch }) => {
             type="text"
             value={newEducation.percentage}
             onChange={(e) => setNewEducation({ ...newEducation, percentage: e.target.value })}
-            className="p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            style={styles.input}
             placeholder="Percentage/GPA"
           />
         </div>
         <button
           id="add_education"
           onClick={handleAddEducation}
-          className="mt-4 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+          style={{...styles.button, ...styles.buttonPrimary, marginTop: '1rem'}}
         >
           Add Education
         </button>
       </div>
 
-      <div className="space-y-4">
+      <div>
         {state.education.map((edu, index) => (
-          <div key={index} className="bg-white p-4 border border-gray-200 rounded-lg">
-            <div className="flex justify-between items-start">
-              <div className="flex-1">
-                <h4 className="font-semibold text-lg">{edu.courseName}</h4>
-                <p className="text-gray-600">{edu.college}</p>
-                <p className="text-gray-500">{edu.completionYear} • {edu.percentage}</p>
+          <div key={index} style={styles.card}>
+            <div style={styles.flexBetween}>
+              <div>
+                <h4 style={{fontWeight: '600', fontSize: '1.125rem'}}>{edu.courseName}</h4>
+                <p style={{color: '#6b7280'}}>{edu.college}</p>
+                <p style={{color: '#9ca3af'}}>{edu.completionYear} • {edu.percentage}</p>
               </div>
               <button
                 id="delete"
                 onClick={() => handleDeleteEducation(index)}
-                className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors"
+                style={{...styles.button, ...styles.buttonDanger}}
               >
                 Delete
               </button>
@@ -268,38 +474,38 @@ const SkillsPage = ({ state, dispatch }) => {
   };
 
   return (
-    <div className="space-y-6">
-      <h2 className="text-2xl font-bold text-gray-800 mb-6">Skills</h2>
+    <div>
+      <h2 style={styles.pageTitle}>Add your Skills</h2>
       
-      <div className="bg-gray-50 p-4 rounded-lg">
-        <h3 className="text-lg font-semibold mb-4">Add Skill</h3>
-        <div className="flex gap-4">
+      <div style={styles.addSection}>
+        <h3 style={styles.addSectionTitle}>Add Skill</h3>
+        <div style={styles.flexGap}>
           <input
             name="skill"
             type="text"
             value={newSkill}
             onChange={(e) => setNewSkill(e.target.value)}
-            className="flex-1 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            style={{...styles.input, flex: '1'}}
             placeholder="Enter a skill"
           />
           <button
             id="add_skill"
             onClick={handleAddSkill}
-            className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+            style={{...styles.button, ...styles.buttonPrimary}}
           >
             Add Skill
           </button>
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-2">
+      <div>
         {state.skills.map((skill, index) => (
-          <div key={index} className="bg-blue-100 px-4 py-2 rounded-full flex items-center gap-2">
-            <span className="text-blue-800">{skill}</span>
+          <div key={index} style={styles.skillTag}>
+            <span>{skill}</span>
             <button
               id="delete_skill"
               onClick={() => handleDeleteSkill(index)}
-              className="text-red-500 hover:text-red-700 font-bold"
+              style={styles.deleteButton}
             >
               ×
             </button>
@@ -330,18 +536,18 @@ const ProjectsPage = ({ state, dispatch }) => {
   };
 
   return (
-    <div className="space-y-6">
-      <h2 className="text-2xl font-bold text-gray-800 mb-6">Projects</h2>
+    <div>
+      <h2 style={styles.pageTitle}>Add your Mini Projects</h2>
       
-      <div className="bg-gray-50 p-4 rounded-lg">
-        <h3 className="text-lg font-semibold mb-4">Add Project</h3>
-        <div className="space-y-4">
+      <div style={styles.addSection}>
+        <h3 style={styles.addSectionTitle}>Add Project</h3>
+        <div style={{display: 'flex', flexDirection: 'column', gap: '1rem'}}>
           <input
             name="projectName"
             type="text"
             value={newProject.projectName}
             onChange={(e) => setNewProject({ ...newProject, projectName: e.target.value })}
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            style={styles.input}
             placeholder="Project Name"
           />
           <input
@@ -349,40 +555,39 @@ const ProjectsPage = ({ state, dispatch }) => {
             type="text"
             value={newProject.techStack}
             onChange={(e) => setNewProject({ ...newProject, techStack: e.target.value })}
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            style={styles.input}
             placeholder="Tech Stack (e.g., React, Node.js, MongoDB)"
           />
           <textarea
             name="description"
             value={newProject.description}
             onChange={(e) => setNewProject({ ...newProject, description: e.target.value })}
-            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            rows="3"
+            style={styles.textarea}
             placeholder="Project Description"
           />
         </div>
         <button
           id="add_project"
           onClick={handleAddProject}
-          className="mt-4 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+          style={{...styles.button, ...styles.buttonPrimary, marginTop: '1rem'}}
         >
           Add Project
         </button>
       </div>
 
-      <div className="space-y-4">
+      <div>
         {state.projects.map((project, index) => (
-          <div key={index} className="bg-white p-4 border border-gray-200 rounded-lg">
-            <div className="flex justify-between items-start">
-              <div className="flex-1">
-                <h4 className="font-semibold text-lg">{project.projectName}</h4>
-                <p className="text-blue-600 font-medium">{project.techStack}</p>
-                <p className="text-gray-600 mt-2">{project.description}</p>
+          <div key={index} style={styles.card}>
+            <div style={styles.flexBetween}>
+              <div style={{flex: '1'}}>
+                <h4 style={{fontWeight: '600', fontSize: '1.125rem'}}>{project.projectName}</h4>
+                <p style={{color: '#4f46e5', fontWeight: '500'}}>{project.techStack}</p>
+                <p style={{color: '#6b7280', marginTop: '0.5rem'}}>{project.description}</p>
               </div>
               <button
                 id="delete"
                 onClick={() => handleDeleteProject(index)}
-                className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-colors"
+                style={{...styles.button, ...styles.buttonDanger}}
               >
                 Delete
               </button>
@@ -410,39 +615,39 @@ const SocialMediaPage = ({ state, dispatch }) => {
   };
 
   return (
-    <div className="space-y-6">
-      <h2 className="text-2xl font-bold text-gray-800 mb-6">Social Media</h2>
+    <div>
+      <h2 style={styles.pageTitle}>Add your Social Media Links</h2>
       
-      <div className="bg-gray-50 p-4 rounded-lg">
-        <h3 className="text-lg font-semibold mb-4">Add Social Media Link</h3>
-        <div className="flex gap-4">
+      <div style={styles.addSection}>
+        <h3 style={styles.addSectionTitle}>Add Social Media Link</h3>
+        <div style={styles.flexGap}>
           <input
             name="Social"
             type="url"
             value={newSocial}
             onChange={(e) => setNewSocial(e.target.value)}
-            className="flex-1 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            style={{...styles.input, flex: '1'}}
             placeholder="https://linkedin.com/in/yourprofile"
           />
           <button
             id="add_social"
             onClick={handleAddSocial}
-            className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+            style={{...styles.button, ...styles.buttonPrimary}}
           >
             Add Social
           </button>
         </div>
       </div>
 
-      <div className="space-y-2">
+      <div>
         {state.socialMedia.map((social, index) => (
-          <div key={index} className="bg-white p-3 border border-gray-200 rounded-lg flex justify-between items-center">
-            <a href={social} className="text-blue-600 hover:underline" target="_blank" rel="noopener noreferrer">
+          <div key={index} style={{...styles.card, display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+            <a href={social} style={{color: '#4f46e5', textDecoration: 'none'}} target="_blank" rel="noopener noreferrer">
               {social}
             </a>
             <button
               onClick={() => handleDeleteSocial(index)}
-              className="text-red-500 hover:text-red-700 font-bold"
+              style={styles.deleteButton}
             >
               ×
             </button>
@@ -463,28 +668,35 @@ const ResumePreview = ({ state }) => {
   };
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-gray-800">Resume Preview</h2>
+    <div>
+      <div style={styles.flexBetween}>
+        <h2 style={styles.pageTitle}>Resume Preview</h2>
         <button
           onClick={saveToDatabase}
-          className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors"
+          style={{...styles.button, backgroundColor: '#10b981', color: 'white'}}
         >
           Save Resume
         </button>
       </div>
       
-      <div className="bg-white p-8 border-2 border-gray-200 rounded-lg max-w-4xl mx-auto">
+      <div style={{
+        backgroundColor: 'white',
+        padding: '2rem',
+        border: '2px solid #e5e7eb',
+        borderRadius: '8px',
+        maxWidth: '800px',
+        margin: '0 auto'
+      }}>
         {/* Profile Section */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">
+        <div style={{textAlign: 'center', marginBottom: '2rem'}}>
+          <h1 style={{fontSize: '2rem', fontWeight: 'bold', color: '#1f2937', margin: '0'}}>
             {state.profile.fname} {state.profile.lname}
           </h1>
-          <div className="mt-2 text-gray-600">
+          <div style={{marginTop: '0.5rem', color: '#6b7280'}}>
             <p>{state.profile.phone}</p>
             <p>{state.profile.address}</p>
             {state.profile.url && (
-              <a href={state.profile.url} className="text-blue-600 hover:underline">
+              <a href={state.profile.url} style={{color: '#4f46e5', textDecoration: 'none'}}>
                 {state.profile.url}
               </a>
             )}
@@ -493,18 +705,18 @@ const ResumePreview = ({ state }) => {
 
         {/* Education Section */}
         {state.education.length > 0 && (
-          <div className="mb-6">
-            <h3 className="text-xl font-bold text-gray-800 border-b-2 border-gray-200 pb-2 mb-4">
+          <div style={{marginBottom: '1.5rem'}}>
+            <h3 style={{fontSize: '1.25rem', fontWeight: 'bold', color: '#1f2937', borderBottom: '2px solid #e5e7eb', paddingBottom: '0.5rem', marginBottom: '1rem'}}>
               Education
             </h3>
             {state.education.map((edu, index) => (
-              <div key={index} className="mb-3">
-                <div className="flex justify-between">
+              <div key={index} style={{marginBottom: '0.75rem'}}>
+                <div style={styles.flexBetween}>
                   <div>
-                    <h4 className="font-semibold">{edu.courseName}</h4>
-                    <p className="text-gray-600">{edu.college}</p>
+                    <h4 style={{fontWeight: '600'}}>{edu.courseName}</h4>
+                    <p style={{color: '#6b7280'}}>{edu.college}</p>
                   </div>
-                  <div className="text-right text-gray-500">
+                  <div style={{textAlign: 'right', color: '#9ca3af'}}>
                     <p>{edu.completionYear}</p>
                     <p>{edu.percentage}</p>
                   </div>
@@ -516,13 +728,13 @@ const ResumePreview = ({ state }) => {
 
         {/* Skills Section */}
         {state.skills.length > 0 && (
-          <div className="mb-6">
-            <h3 className="text-xl font-bold text-gray-800 border-b-2 border-gray-200 pb-2 mb-4">
+          <div style={{marginBottom: '1.5rem'}}>
+            <h3 style={{fontSize: '1.25rem', fontWeight: 'bold', color: '#1f2937', borderBottom: '2px solid #e5e7eb', paddingBottom: '0.5rem', marginBottom: '1rem'}}>
               Skills
             </h3>
-            <div className="flex flex-wrap gap-2">
+            <div style={{display: 'flex', flexWrap: 'wrap', gap: '0.5rem'}}>
               {state.skills.map((skill, index) => (
-                <span key={index} className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">
+                <span key={index} style={{backgroundColor: '#dbeafe', color: '#1e40af', padding: '0.25rem 0.75rem', borderRadius: '20px', fontSize: '0.875rem'}}>
                   {skill}
                 </span>
               ))}
@@ -532,15 +744,15 @@ const ResumePreview = ({ state }) => {
 
         {/* Projects Section */}
         {state.projects.length > 0 && (
-          <div className="mb-6">
-            <h3 className="text-xl font-bold text-gray-800 border-b-2 border-gray-200 pb-2 mb-4">
+          <div style={{marginBottom: '1.5rem'}}>
+            <h3 style={{fontSize: '1.25rem', fontWeight: 'bold', color: '#1f2937', borderBottom: '2px solid #e5e7eb', paddingBottom: '0.5rem', marginBottom: '1rem'}}>
               Projects
             </h3>
             {state.projects.map((project, index) => (
-              <div key={index} className="mb-4">
-                <h4 className="font-semibold">{project.projectName}</h4>
-                <p className="text-blue-600 text-sm font-medium">{project.techStack}</p>
-                <p className="text-gray-600 mt-1">{project.description}</p>
+              <div key={index} style={{marginBottom: '1rem'}}>
+                <h4 style={{fontWeight: '600'}}>{project.projectName}</h4>
+                <p style={{color: '#4f46e5', fontSize: '0.875rem', fontWeight: '500'}}>{project.techStack}</p>
+                <p style={{color: '#6b7280', marginTop: '0.25rem'}}>{project.description}</p>
               </div>
             ))}
           </div>
@@ -548,13 +760,13 @@ const ResumePreview = ({ state }) => {
 
         {/* Social Media Section */}
         {state.socialMedia.length > 0 && (
-          <div className="mb-6">
-            <h3 className="text-xl font-bold text-gray-800 border-b-2 border-gray-200 pb-2 mb-4">
+          <div style={{marginBottom: '1.5rem'}}>
+            <h3 style={{fontSize: '1.25rem', fontWeight: 'bold', color: '#1f2937', borderBottom: '2px solid #e5e7eb', paddingBottom: '0.5rem', marginBottom: '1rem'}}>
               Social Media
             </h3>
-            <div className="space-y-1">
+            <div style={{display: 'flex', flexDirection: 'column', gap: '0.25rem'}}>
               {state.socialMedia.map((social, index) => (
-                <a key={index} href={social} className="block text-blue-600 hover:underline">
+                <a key={index} href={social} style={{color: '#4f46e5', textDecoration: 'none'}}>
                   {social}
                 </a>
               ))}
@@ -569,7 +781,6 @@ const ResumePreview = ({ state }) => {
 // Main Resume Builder Component
 const ResumeBuilder = () => {
   const [state, dispatch] = useReducer(resumeReducer, initialState);
-  const [savedResumes] = useState([]); // For demonstration - would connect to actual database
 
   const pages = [
     { title: 'Profile', component: ProfilePage },
@@ -631,92 +842,88 @@ const ResumeBuilder = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <div className="container mx-auto px-4 py-8">
-        <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-          {/* Header */}
-          <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6">
-            <h1 className="text-3xl font-bold text-center">Resume Builder</h1>
-            <div className="flex justify-center mt-4">
-              <button
-                onClick={loadSampleData}
-                className="bg-white text-blue-600 px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors"
-              >
-                Load Sample Data
-              </button>
-            </div>
-          </div>
+    <div style={styles.container}>
+      <div style={styles.mainCard}>
+        {/* Header */}
+        <div style={styles.header}>
+          <h1 style={styles.headerTitle}>RESUME GENERATOR</h1>
+          <button
+            onClick={loadSampleData}
+            style={styles.loadButton}
+          >
+            Load Sample Data
+          </button>
+        </div>
 
-          {/* Progress Bar */}
-          <div className="bg-gray-200 h-2">
-            <div 
-              className="bg-blue-600 h-2 transition-all duration-300"
-              style={{ width: `${((state.currentPage + 1) / pages.length) * 100}%` }}
-            />
-          </div>
+        {/* Progress Bar */}
+        <div style={styles.progressBar}>
+          <div 
+            style={{
+              ...styles.progressFill,
+              width: `${((state.currentPage + 1) / pages.length) * 100}%`
+            }}
+          />
+        </div>
 
-          {/* Page Indicator */}
-          <div className="bg-gray-50 p-4">
-            <div className="flex justify-center space-x-4">
-              {pages.map((page, index) => (
-                <div
-                  key={index}
-                  className={`px-3 py-1 rounded-full text-sm ${
-                    index === state.currentPage
-                      ? 'bg-blue-600 text-white'
-                      : index < state.currentPage
-                      ? 'bg-green-500 text-white'
-                      : 'bg-gray-200 text-gray-600'
-                  }`}
-                >
-                  {index + 1}. {page.title}
-                </div>
-              ))}
-            </div>
-          </div>
+        {/* Page Indicator */}
+        <div style={styles.pageIndicator}>
+          {pages.map((page, index) => {
+            let tabStyle = {...styles.pageTab};
+            if (index === state.currentPage) {
+              tabStyle = {...tabStyle, ...styles.pageTabActive};
+            } else if (index < state.currentPage) {
+              tabStyle = {...tabStyle, ...styles.pageTabComplete};
+            } else {
+              tabStyle = {...tabStyle, ...styles.pageTabInactive};
+            }
+            
+            return (
+              <div key={index} style={tabStyle}>
+                {index + 1}. {page.title}
+              </div>
+            );
+          })}
+        </div>
 
-          {/* Page Content */}
-          <div className="p-8">
-            {React.createElement(currentPageComponent, { state, dispatch })}
-          </div>
+        {/* Page Content */}
+        <div style={styles.pageContent}>
+          {React.createElement(currentPageComponent, { state, dispatch })}
+        </div>
 
-          {/* Navigation */}
-          <div className="bg-gray-50 p-6 flex justify-between">
+        {/* Navigation */}
+        <div style={styles.navigation}>
+          <button
+            id="back"
+            onClick={handleBack}
+            disabled={state.currentPage === 0}
+            style={{
+              ...styles.button,
+              ...(state.currentPage === 0 ? styles.buttonDisabled : styles.buttonSecondary)
+            }}
+          >
+            Back
+          </button>
+
+          <div style={styles.navigationButtons}>
             <button
-              id="back"
-              onClick={handleBack}
-              disabled={state.currentPage === 0}
-              className={`px-6 py-2 rounded-lg transition-colors ${
-                state.currentPage === 0
-                  ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                  : 'bg-gray-600 text-white hover:bg-gray-700'
-              }`}
+              id="save_continue"
+              onClick={handleSave}
+              style={{...styles.button, backgroundColor: '#f59e0b', color: 'white'}}
             >
-              Back
+              Save
             </button>
 
-            <div className="space-x-4">
-              <button
-                id="save_continue"
-                onClick={handleSave}
-                className="bg-yellow-600 text-white px-6 py-2 rounded-lg hover:bg-yellow-700 transition-colors"
-              >
-                Save
-              </button>
-
-              <button
-                id="next"
-                onClick={handleNext}
-                disabled={state.currentPage === pages.length - 1}
-                className={`px-6 py-2 rounded-lg transition-colors ${
-                  state.currentPage === pages.length - 1
-                    ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                    : 'bg-blue-600 text-white hover:bg-blue-700'
-                }`}
-              >
-                {state.currentPage === pages.length - 1 ? 'Finished' : 'Next'}
-              </button>
-            </div>
+            <button
+              id="next"
+              onClick={handleNext}
+              disabled={state.currentPage === pages.length - 1}
+              style={{
+                ...styles.button,
+                ...(state.currentPage === pages.length - 1 ? styles.buttonDisabled : styles.buttonPrimary)
+              }}
+            >
+              {state.currentPage === pages.length - 1 ? 'Finished' : 'Next'}
+            </button>
           </div>
         </div>
       </div>
