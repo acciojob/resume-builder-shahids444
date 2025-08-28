@@ -438,6 +438,7 @@ const EducationPage = ({ state, dispatch }) => {
       </div>
 
       <div className="makeStyles-instance-16">
+        {state.education.length}
         {state.education.map((edu, index) => (
           <div key={index} style={styles.card}>
             <div style={styles.flexBetween}>
@@ -502,6 +503,7 @@ const SkillsPage = ({ state, dispatch }) => {
       </div>
 
       <div>
+        {state.skills.length}
         {state.skills.map((skill, index) => (
           <div key={index} style={styles.skillTag}>
             <span>{skill}</span>
@@ -579,6 +581,7 @@ const ProjectsPage = ({ state, dispatch }) => {
       </div>
 
       <div>
+        {state.projects.length}
         {state.projects.map((project, index) => (
           <div key={index} style={styles.card}>
             <div style={styles.flexBetween}>
@@ -643,6 +646,7 @@ const SocialMediaPage = ({ state, dispatch }) => {
       </div>
 
       <div>
+        {state.socialMedia.length}
         {state.socialMedia.map((social, index) => (
           <div key={index} style={{...styles.card, display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
             <a href={social} style={{color: '#4f46e5', textDecoration: 'none'}} target="_blank" rel="noopener noreferrer">
