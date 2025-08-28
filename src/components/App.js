@@ -438,7 +438,6 @@ const EducationPage = ({ state, dispatch }) => {
       </div>
 
       <div className="makeStyles-instance-16">
-        {state.education.length}
         {state.education.map((edu, index) => (
           <div key={index} style={styles.card}>
             <div style={styles.flexBetween}>
@@ -457,6 +456,7 @@ const EducationPage = ({ state, dispatch }) => {
             </div>
           </div>
         ))}
+        {state.education.length > 0 && <div>{state.education.length}</div>}
       </div>
     </div>
   );
@@ -488,10 +488,12 @@ const SkillsPage = ({ state, dispatch }) => {
             name="skill"
             type="text"
             value={newSkill}
+            data-count={state.skills.length}
             onChange={(e) => setNewSkill(e.target.value)}
             style={{...styles.input, flex: '1'}}
             placeholder="Enter a skill"
           />
+          <span style={{minWidth: '20px'}}>{state.skills.length}</span>
           <button
             id="add_skill"
             onClick={handleAddSkill}
@@ -547,14 +549,18 @@ const ProjectsPage = ({ state, dispatch }) => {
       <div style={styles.addSection}>
         <h3 style={styles.addSectionTitle}>Add Project</h3>
         <div style={{display: 'flex', flexDirection: 'column', gap: '1rem'}}>
-          <input
-            name="projectName"
-            type="text"
-            value={newProject.projectName}
-            onChange={(e) => setNewProject({ ...newProject, projectName: e.target.value })}
-            style={styles.input}
-            placeholder="Project Name"
-          />
+          <div style={{display: 'flex', alignItems: 'center', gap: '1rem'}}>
+            <input
+              name="projectName"
+              type="text"
+              value={newProject.projectName}
+              data-count={state.projects.length}
+              onChange={(e) => setNewProject({ ...newProject, projectName: e.target.value })}
+              style={{...styles.input, flex: '1'}}
+              placeholder="Project Name"
+            />
+            <span style={{minWidth: '20px'}}>{state.projects.length}</span>
+          </div>
           <input
             name="techStack"
             type="text"
@@ -631,10 +637,12 @@ const SocialMediaPage = ({ state, dispatch }) => {
             name="Social"
             type="url"
             value={newSocial}
+            data-count={state.socialMedia.length}
             onChange={(e) => setNewSocial(e.target.value)}
             style={{...styles.input, flex: '1'}}
             placeholder="https://linkedin.com/in/yourprofile"
           />
+          <span style={{minWidth: '20px'}}>{state.socialMedia.length}</span>
           <button
             id="add_social"
             onClick={handleAddSocial}
