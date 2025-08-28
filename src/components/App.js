@@ -437,7 +437,7 @@ const EducationPage = ({ state, dispatch }) => {
         </div>
       </div>
 
-      <div>
+      <div className="makeStyles-instance-16">
         {state.education.map((edu, index) => (
           <div key={index} style={styles.card}>
             <div style={styles.flexBetween}>
@@ -486,7 +486,7 @@ const SkillsPage = ({ state, dispatch }) => {
           <input
             name="skill"
             type="text"
-            value={state.skills.length}
+            value={newSkill}
             onChange={(e) => setNewSkill(e.target.value)}
             style={{...styles.input, flex: '1'}}
             placeholder="Enter a skill"
@@ -548,7 +548,7 @@ const ProjectsPage = ({ state, dispatch }) => {
           <input
             name="projectName"
             type="text"
-            value={state.projects.length}
+            value={newProject.projectName}
             onChange={(e) => setNewProject({ ...newProject, projectName: e.target.value })}
             style={styles.input}
             placeholder="Project Name"
@@ -627,7 +627,7 @@ const SocialMediaPage = ({ state, dispatch }) => {
           <input
             name="Social"
             type="url"
-            value={state.socialMedia.length}
+            value={newSocial}
             onChange={(e) => setNewSocial(e.target.value)}
             style={{...styles.input, flex: '1'}}
             placeholder="https://linkedin.com/in/yourprofile"
